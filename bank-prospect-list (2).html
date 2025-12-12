@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Prospect List - 525 E Crossville Rd</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .category-header h2 {
+            font-size: 18px;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .category-header .count {
+            font-size: 14px;
+            color: #718096;
+            font-weight: 400;
+        }
+
+        .bank-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .bank-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e0;
+        }
+
+        .bank-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .bank-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fbbf24;
+        }
+
+        .status-scheduled {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+
+        .status-evaluating {
+            background: #e0e7ff;
+            color: #4338ca;
+            border: 1px solid #6366f1;
+        }
+
+        .status-contacted {
+            background: #e0f2fe;
+            color: #075985;
+            border: 1px solid #0284c7;
+        }
+
+        .status-prospect {
+            background: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+        }
+
+        .status-hot {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .status-warm {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fbbf24;
+        }
+
+        .status-cold {
+            background: #e0f2fe;
+            color: #075985;
+            border: 1px solid #7dd3fc;
+        }
+
+        .status-lead {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #60a5fa;
+        }
+
+        .status-campaign {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .status-waiting {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .bank-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 13px;
+            margin-right: 12px;
+            font-weight: 600;
+        }
+
+        .chevron {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+            color: #718096;
+        }
+
+        .chevron.expanded {
+            transform: rotate(180deg);
+        }
+
+        .bank-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .bank-details.expanded {
+            max-height: 2000px;
+        }
+
+        .details-content {
+            padding: 20px;
+        }
+
+        .brief-notes {
+            background: #fff5e6;
+            border-left: 3px solid #f59e0b;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .brief-notes strong {
+            color: #92400e;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .brief-notes p {
+            color: #78350f;
+            margin-top: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .outreach-status {
+            background: #e0f2fe;
+            border-left: 3px solid #0284c7;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .outreach-status strong {
+            color: #075985;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .outreach-status p {
+            color: #0c4a6e;
+            margin-top: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .key-contacts {
+            background: #f0fdf4;
+            border-left: 3px solid #16a34a;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .key-contacts strong {
+            color: #166534;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-list {
+            margin-top: 8px;
+        }
+
+        .contact-item {
+            color: #15803d;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 4px;
+        }
+
+        .contact-name {
+            font-weight: 600;
+        }
+
+        .contact-title {
+            color: #166534;
+            font-style: italic;
+        }
+
+        .campaign-note {
+            color: #15803d;
+            font-size: 13px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title.alignment::before {
+            content: "✓";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #10b981;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            margin-right: 8px;
+            font-size: 12px;
+        }
+
+        .section-title.misalignment::before {
+            content: "!";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .detail-section li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        .detail-section li::before {
+            content: "•";
+            position: absolute;
+            left: 12px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .eliminated-note {
+            background: #fee;
+            border-left: 3px solid #dc2626;
+            padding: 12px 16px;
+            border-radius: 4px;
+        }
+
+        .eliminated-note strong {
+            color: #991b1b;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .eliminated-note p {
+            color: #7f1d1d;
+            margin-top: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .bank-name {
+                font-size: 15px;
+            }
+
+            .details-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Bank Prospect List</h1>
+            <p>525 E Crossville Rd, Roswell, GA</p>
+        </div>
+
+        <div class="content">
+            <!-- Category A: Active / Highest Priority Targets -->
+            <div class="category">
+                <div class="category-header">
+                    <h2>A. Active / Highest Priority Targets</h2>
+                    <span class="count">4 Prospects</span>
+                </div>
+
+                <!-- Bank 1: FirstBank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">1</span>
+                            FirstBank (FB Financial)
+                            <span class="status-badge status-hot">🔥 Hot Lead</span>
+                            <span class="status-badge status-evaluating">📋 Under Review</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Bank president is highly interested. They want to pursue leasing only. The real estate team in Nashville is working on their evaluation currently. Won't have feedback until the new year.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>They are represented and we are in touch with their broker, just waiting for feedback.</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Actively expanding closer to Metro Atlanta following their Southern States acquisition (Carrollton, Cartersville, Newnan footholds).</li>
+                                    <li>Broker has already communicated interest in expanding to Roswell, which directly aligns with your building.</li>
+                                    <li>Roswell fills a meaningful geographic gap between their outer-Atlanta branches and the core metro.</li>
+                                    <li>Strong commercial banking profile → ideal for office / mixed branch-office layouts.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>They prefer a lease over purchase as they do not wish to be a landlord.</li>
+                                    <li>7,000 SF is bigger than they need. They probably need only 75%-85% of that space.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 2: Seacoast Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">2</span>
+                            Seacoast Bank
+                            <span class="status-badge status-warm">🔥 Warm Lead</span>
+                            <span class="status-badge status-evaluating">📋 Under Review</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Toured the space - went pretty well. They would like to be closer to 4,000 SF and would need a higher office count than currently exists. Still viable. Hiring a real estate team in February to help with search.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Cold called Regional President who said they are about to start looking in Roswell, aiming for mid-2026 opening if they can hire the people. Sent information and pushed for a tour.</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>They need a bank branch in that area.</li>
+                                    <li>Want to open a branch by mid-2026.</li>
+                                    <li>Strong expansion mode, especially in business banking and suburban markets.</li>
+                                    <li>Has already entered Georgia (e.g., Woodstock), signaling openness to Metro Atlanta presence.</li>
+                                    <li>Roswell/Alpharetta resembles their high-income Florida suburban targets.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>Would prefer closer to 4,000 SF rather than full 7,000 SF space.</li>
+                                    <li>Would need higher office count than currently exists in the space.</li>
+                                    <li>Very small team - would need to hire employees for the location.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 3: Georgia Skyline -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">3</span>
+                            Georgia Skyline
+                            <span class="status-badge status-cold">❄️ Cold Lead</span>
+                            <span class="status-badge status-evaluating">📋 Under Review</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Claiming they are 100% focused on diligence at Mansell location, but would pivot if something came up in environmental. Should know on that by mid-December. Left voicemail Wednesday morning with bank President Ryan - haven't heard back yet.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>In communication with bank President, Ryan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 4: Cadence Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">4</span>
+                            Cadence Bank
+                            <span class="status-badge status-cold">❄️ Cold Lead</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Spoke with Randy Schulz (EVP, decision maker). They are looking to expand rapidly in Atlanta over the next 18 months, but 525 E Crossville is too big for them at first look. Meeting scheduled after their acquisition closes in the new year.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Direct access to Randy Schulz (EVP, #5 in organization) through co-worker's father. Marketing materials sent. Market President also added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Randy Schulz</span> - <span class="contact-title">Executive Vice President</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-name">David Berdugo</span> - <span class="contact-title">Market President</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Randy Schulz confirmed expansion plans for retail locations in Atlanta over next 18 months.</li>
+                                    <li>Meeting scheduled after acquisition closes in new year.</li>
+                                    <li>Mid-merger repositioning (Huntington acquisition) creates potential for relocations or added sites.</li>
+                                    <li>Could be consolidating older branches and opening newer, strategically placed suburban branches.</li>
+                                    <li>Roswell sits between legacy State Bank & Trust footprints and key commercial corridors they bank heavily.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>525 E Crossville is too big for them at first look.</li>
+                                    <li>Integration could make them slower or more conservative in committing to new leases.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Category B: High-Potential New Prospects -->
+            <div class="category">
+                <div class="category-header">
+                    <h2>B. Secondary Prospect List</h2>
+                    <span class="count">7 Prospects</span>
+                </div>
+
+
+                <!-- Bank 5: BankSouth -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">5</span>
+                            BankSouth
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Strong potential fit for Roswell market. Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Key decision makers (CEO, Market President) added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Robert Bass</span> - <span class="contact-title">Chief Executive Officer</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-name">Susan Bogardus</span> - <span class="contact-title">Market President</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-name">Kim Nelson</span> - <span class="contact-title">CEO, BankSouth Mortgage</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-name">Harold Reynolds</span> - <span class="contact-title">CEO</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Very strong in affluent suburban nodes such as Lake Oconee, Athens, and parts of Metro Atlanta.</li>
+                                    <li>Roswell would provide immediate access to prime commercial and residential demographics.</li>
+                                    <li>BankSouth often prefers high-visibility locations — your building matches that profile.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>BankSouth can be selective; they often grow through very targeted placements.</li>
+                                    <li>Need to understand whether they want retail footprint, business banking office, or a hybrid.</li>
+                                    <li>Could already feel comfortable with nearby presence in Alpharetta/Sandy Springs corridor — must verify.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Bank 7: ServisFirst Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">6</span>
+                            ServisFirst Bank
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Strong commercial banking presence; expanding across the Southeast. Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Regional President & CEO of Georgia operations and Regional CEO added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Hal Clemmer</span> - <span class="contact-title">Regional President & CEO - ServisFirst Bank of Georgia</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-name">Rick Manley</span> - <span class="contact-title">Regional CEO</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Strong commercial lender with deep roots in Birmingham but expanding aggressively throughout the Southeast.</li>
+                                    <li>Often seeks high-quality, professional suburban office locations — Roswell fits their typical expansion pattern.</li>
+                                    <li>No nearby branch overlap → clean expansion opportunity.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>They tend to lead with commercial banking groups, not full retail branches.</li>
+                                    <li>Must clarify whether they want storefront visibility or pure office space.</li>
+                                    <li>Need to confirm if Atlanta north suburban expansion is on a 2025–2026 timeline.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 8: Southern First Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">7</span>
+                            Southern First Bank
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Active in metro expansion in nearby states; strong match for affluent suburban markets. Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Executive Vice President - Atlanta Region added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Sandy Bowen</span> - <span class="contact-title">Executive Vice President - Atlanta Region</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Very active in expanding into metros like Greenville, Charlotte, and Raleigh — Roswell matches their demographic profile (affluent, professional suburbs).</li>
+                                    <li>Attractive customer base for their service model.</li>
+                                    <li>No nearby overlap.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>No publicly stated plans for Georgia/Atlanta yet.</li>
+                                    <li>They may be pacing themselves between Carolinas and Georgia markets.</li>
+                                    <li>Need clarity on whether Georgia or Atlanta is part of their 2025–2026 expansion plan.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 9: United Community Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">8</span>
+                            United Community Bank (UCBI)
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Continuing to fill in Metro Atlanta suburbs. Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Senior Vice Presidents added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">George Gornowicz</span> - <span class="contact-title">Senior Vice President</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-name">Scott Garcia</span> - <span class="contact-title">Sr. Vice President</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Steadily filling in Metro Atlanta markets and emphasizing suburban expansion.</li>
+                                    <li>Roswell complements their North Georgia roots and Atlanta suburban footprint.</li>
+                                    <li>Strong business banking appetite → aligns with your building setup.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>They already have multiple locations in north metro; need to confirm whether Roswell is a "gap" or "redundant" location.</li>
+                                    <li>May prefer free-standing or pad-site retail prototypes over office buildings.</li>
+                                    <li>Must determine whether they're expanding retail or consolidating.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 10: Signature Bank of Georgia -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">9</span>
+                            Signature Bank of Georgia
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Sandy Springs–based business bank; Roswell could provide useful geographic coverage. Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>CEO and President added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Freddie Deutsch</span> - <span class="contact-title">CEO</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-name">Steve Reagin</span> - <span class="contact-title">President</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Sandy Springs–based and focused heavily on business banking.</li>
+                                    <li>Roswell would give them a meaningful second suburban location.</li>
+                                    <li>Great demographic alignment with their niche client base.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>They are conservative about branch count — might not have aggressive geographic ambitions.</li>
+                                    <li>Need clarity on whether they are seeking new physical locations or leaning more digital.</li>
+                                    <li>Confirm whether they prioritize retail presence or more back-office configurations.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 11: Tandem Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">10</span>
+                            Tandem Bank
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Made a previous outreach attempt that didn't gain traction. Trying again with active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Previously reached out and didn't get traction. Founding Chairman & CEO added to active email marketing campaign for renewed outreach.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Charles Dewitt</span> - <span class="contact-title">Founding Chairman & CEO</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Small, entrepreneurial bank familiar with the north Atlanta suburbs.</li>
+                                    <li>Could benefit from a Roswell presence to round out Peachtree Corners / Tucker / Atlanta coverage.</li>
+                                    <li>Roswell gives them visibility in a high-affluence corridor.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>Previous outreach didn't gain traction; unclear if they are expanding.</li>
+                                    <li>Smaller bank → may have limited capital or growth objectives.</li>
+                                    <li>Need clarity on whether their model supports new branches or only relationship-driven offices.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 12: First National Community Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">11</span>
+                            First National Community Bank (FNCB)
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Expanding inward from Paulding/Cobb; longer-term possibility. Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Senior Vice President, Market President added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Jason Faulkner</span> - <span class="contact-title">Senior Vice President, Market President</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <div class="section-title alignment">Alignment / Opportunity</div>
+                                <ul>
+                                    <li>Expanding progressively from Paulding County into Atlanta-adjacent areas.</li>
+                                    <li>Roswell would represent a strong strategic move into east-west suburban routes.</li>
+                                    <li>Could be looking for opportunities to penetrate high-income submarkets.</li>
+                                </ul>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="section-title misalignment">Misalignment / Things to Explore</div>
+                                <ul>
+                                    <li>Expansion is slow and opportunistic — far from guaranteed.</li>
+                                    <li>They may focus more on western/northwestern corridors rather than Roswell/Milton.</li>
+                                    <li>Need clarity on whether eastward expansion is part of their medium-term plan.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category C: Tertiary Prospect List -->
+            <div class="category">
+                <div class="category-header">
+                    <h2>C. Tertiary Prospect List</h2>
+                    <span class="count">3 Prospects</span>
+                </div>
+
+                <!-- Bank 13: Providence Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">12</span>
+                            Providence Bank
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Generic contact information added to email campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Generic Contact</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank 14: HomeTrust Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">13</span>
+                            HomeTrust Bank
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Acquired Quantum National Bank. Has locations in Milton and Suwanee. Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Georgia Market President added to active email marketing campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Bryan Cohen</span> - <span class="contact-title">Georgia Market President</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Bank 16: First Tech Federal Credit Union -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number">14</span>
+                            First Tech Federal Credit Union
+                            <span class="status-badge status-campaign">📧 In Campaign</span>
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="brief-notes">
+                                <strong>Current Status</strong>
+                                <p>Active email marketing campaign underway.</p>
+                            </div>
+                            
+                            <div class="outreach-status">
+                                <strong>Outreach</strong>
+                                <p>Generic contact information added to email campaign.</p>
+                            </div>
+                            
+                            <div class="key-contacts">
+                                <strong>Key Contacts</strong>
+                                <div class="contact-list">
+                                    <div class="contact-item">
+                                        <span class="contact-name">Generic Contact</span>
+                                    </div>
+                                </div>
+                                <p class="campaign-note">Included in email campaign</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category D: Banks Eliminated -->
+            <div class="category">
+                <div class="category-header">
+                    <h2>D. Banks Eliminated (Proximity or Confirmed No Interest)</h2>
+                    <span class="count">17 Banks</span>
+                </div>
+
+                <!-- Synovus -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Synovus
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Has a major building next door.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SouthState Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            SouthState Bank
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Broker confirmed no interest.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PNC Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            PNC Bank
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Branch immediately next to the building.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regions Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Regions Bank
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a nearby Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Truist Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Truist Bank
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already had a location here that was shut down.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ameris Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Ameris Bank
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a location close to the building.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SouthCoast Bank & Trust -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            SouthCoast Bank & Trust
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Very small bank focused in Savannah with no news announcements of significant or rapid growth toward Atlanta market.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fifth Third Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Fifth Third Bank
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank OZK -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Bank OZK
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Georgia's Own Credit Union -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Georgia's Own Credit Union
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navy Federal Credit Union -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Navy Federal Credit Union
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Has a nearby location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JP Morgan Chase -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            JP Morgan Chase
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a nearby Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LGE Community Credit Union -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            LGE Community Credit Union
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Has a nearby Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OneMain Financial -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            OneMain Financial
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank of America -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Bank of America
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Already has a Roswell location.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colony Bank -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Colony Bank
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Dexter Lummus (Atlanta Market President) confirmed they are not in the market for a new location at the present time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delta Community Credit Union -->
+                <div class="bank-item">
+                    <div class="bank-header" onclick="toggleDetails(this)">
+                        <div class="bank-name">
+                            <span class="bank-number" style="background: #dc2626;">✕</span>
+                            Delta Community Credit Union
+                        </div>
+                        <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="bank-details">
+                        <div class="details-content">
+                            <div class="eliminated-note">
+                                <strong>Reason Eliminated</strong>
+                                <p>Leased former urgent care space off West Crossville Road (~3,600 SF).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetails(header) {
+            const detailsDiv = header.nextElementSibling;
+            const chevron = header.querySelector('.chevron');
+            
+            detailsDiv.classList.toggle('expanded');
+            chevron.classList.toggle('expanded');
+        }
+    </script>
+</body>
+</html>
